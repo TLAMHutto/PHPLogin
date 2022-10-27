@@ -1,39 +1,10 @@
 <!DOCTYPE html>
 <?php
-function sanitizeFormUsername($inputText) {
-    $inputText = strip_tags($inputText);
-    $inputText = str_replace(" ", "", $inputText);
-    return $inputText;
-}
-function sanitizeFormString($inputText) {
-    $inputText = strip_tags($inputText);
-    $inputText = str_replace(" ", "", $inputText);
-    $inputText = ucfirst(strtolower($inputText));
-    return $inputText;
-}
-function sanitizeFormPassword($inputText) {
-    $inputText = strip_tags($inputText);
-    return $inputText;
-}
-
-if (isset($_POST['loginButton'])) {
-    echo "Login button was pressed";
-} 
-if (isset($_POST['registerButton'])) {
-    $username = sanitizeFormUsername($_POST['username']);
-    $firstName = sanitizeFormString($_POST['firstName']);
-    $lastName = sanitizeFormString($_POST['lastName']);
-    $email = sanitizeFormUsername($_POST['email']);
-    $email2 = sanitizeFormUsername($_POST['email2']);
-    $password = sanitizeFormPassword($_POST['password']);
-    $password2 = sanitizeFormPassword($_POST['password2']);
-    
-    $wasSuccessful = $account->register($username, $firstName, $lastName, $email, $email2, $password, $password2);
-    if ($wasSuccessful) {
-        $_SESSION['userLoggedIn'] = $username;
-        header("Location: index.php");
-    }
-}
+include("includes/classes/Account.php");
+$account = new Account();
+$account -> register();
+include("includes/handlers/register-handler.php");
+include("includes/handlers/login-handler.php");
 ?>
 <html lang="en">
 <head>
